@@ -1,0 +1,82 @@
+#!/usr/bin/env bash
+
+set -eu
+
+SCRIPT_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+BASE_WORKSPACE_DIRECTORY=$(dirname "${SCRIPT_DIR}")
+
+if ! command -v docker &> /dev/null ; then
+  echo "Error: Docker cli not found in PATH or docker is not installed!"
+fi
+
+function up() {
+  echo "Building Bitcoin Postgres Environment Environment"
+  docker build "${BASE_WORKSPACE_DIRECTORY}"/docker -t bc-pg:latest
+  down
+  docker run -p 5432:5432 --name bc-pg -e POSTGRES_PASSWORD=postgres -d bc-pg:latest
+  echo
+  echo "Waiting for postgres server to come up...."
+  sleep 15
+  echo "Server is up!"
+}
+
+function down() {
+  if [ $(docker ps -a --filter=name=bc-pg | wc -l) -ge 2 ]; then
+    if [ $(docker ps -a --filter=name=bc-pg --filter=status=running | wc -l ) -ge 2 ]; then
+      docker kill bc-pg;
+    fi
+    docker rm bc-pg;
+  fi
+}
+
+function start() {
+  if [ $(docker ps -a --filter=name=bc-pg | wc -l) -ge 2 ]; then
+    docker start bc-pg
+  else
+    up
+  fi
+}
+
+function stop() {
+  if [ $(docker ps --filter=name=bc-pg | wc -l) -eq 2 ]; then
+    docker stop bc-pg
+  fi
+}
+
+function restart() {
+  stop
+  start
+}
+
+function reset() {
+  down
+  up
+}
+
+function usage() {
+  echo "$0 [ up | down | reset | start | stop | restart ]"
+  echo
+  echo "up - build image, start postgres container and load data into postgres"
+  echo "down - stop container and remove container"
+  echo "reset - stop container, remove container, build image, start postgres container and load data into postgres"
+  echo "start - start an existing stopped container if one does not exist then bring one up"
+  echo "stop - stop an existing running container"
+  echo "restart - stop an existing running container, then start an existing stopped container if one does not exist then bring one up"
+  exit 1
+}
+
+if [ "$#" -ne 1 ]; then
+  usage
+fi
+
+ARG=$1
+
+case "${ARG}" in
+  "up") up ;;
+  "down") down ;;
+  "reset") reset ;;
+  "start") start ;;
+  "stop") stop ;;
+  "restart") restart ;;
+  *) usage ;;
+esac

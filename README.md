@@ -38,6 +38,24 @@ $ direnv allow
 
 If you allowed direnv, then
 ```shell
-$ pg.sh 
+$ pg up
 ```
-> **Note**: You can just run `./scripts/pg.sh` too 
+> **Note**: You can just run `./scripts/pg up` too
+
+### Connect to the Postgres Database locally
+```shell
+$ pgcli -h 127.0.0.1 -U postgres -d postgres
+```
+> **Note**: Postgres Password is just `postgres`
+
+#### Other commands
+```text
+$ pg [ up | down | reset | start | stop | restart ]
+
+    up - build image, start postgres container and load data into postgres
+    down - stop container and remove container
+    reset - stop container, remove container, build image, start postgres container and load data into postgres
+    start - start an existing stopped container if one does not exist then bring one up
+    stop - stop an existing running container
+    restart - stop an existing running container, then start an existing stopped container if one does not exist then bring on
+```
