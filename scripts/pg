@@ -13,7 +13,7 @@ function up() {
   echo "Building Bitcoin Postgres Environment Environment"
   docker build "${BASE_WORKSPACE_DIRECTORY}"/docker -t bc-pg:latest
   down
-  docker run -p 5432:5432 --name bc-pg -e POSTGRES_PASSWORD=postgres -d bc-pg:latest
+  docker run -p 5432:5432 --name bc-pg -e POSTGRES_PASSWORD=postgres -e POSTGRES_DATABASE=postgres -d bc-pg:latest
   echo
   echo "Waiting for postgres server to come up...."
   sleep 15
