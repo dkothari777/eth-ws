@@ -2,6 +2,7 @@
 # https://hub.docker.com/layers/postgres/library/postgres/alpine3.14/images/sha256-b44c65c7ab83e08c24672b68fae053b363500b1f82302bd9e7191ab984c83fa8?context=explore
 FROM postgres@sha256:b44c65c7ab83e08c24672b68fae053b363500b1f82302bd9e7191ab984c83fa8
 
+RUN apk update
 RUN apk add gzip
 
 ADD data /data
