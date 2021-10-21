@@ -5,7 +5,7 @@ Please install [docker](https://docs.docker.com/) on your machine. We use a dock
 
 #### Mac Install
 ```shell
-$ brew install docker
+$ brew install --cask docker
 ```
 
 #### Debian Install
