@@ -73,3 +73,30 @@ CREATE INDEX idx_hash ON blocks (hash);
 
 COPY blocks FROM '/data/blocks/blockchair_bitcoin_blocks_20090103.tsv' DELIMITER E'\t' CSV HEADER;
 COPY blocks FROM '/data/blocks/blockchair_bitcoin_blocks_20090109.tsv' DELIMITER E'\t' CSV HEADER;
+
+CREATE TABLE inputs(
+    block_id TEXT,
+    transaction_hash TEXT,
+    index TEXT,
+    time TEXT, 
+    value TEXT,
+    value_usd TEXT,
+    recipient TEXT,
+    type TEXT, 
+    script_hex TEXT,
+    is_from_coinbase TEXT,
+    is_spendable TEXT, 
+    spending_block_id TEXT,
+    spending_transaction_hash TEXT,
+    spending_index TEXT, 
+    spending_time TEXT, 
+    spending_value_usd TEXT,
+    spending_sequence TEXT,
+    spending_signature_hex TEXT,
+    spending_witness TEXT,
+    lifespan TEXT,
+    cdd TEXT
+);
+
+COPY inputs FROM '/data/inputs/blockchair_bitcoin_inputs_20090112.tsv' DELIMITER E'\t' CSV HEADER;
+COPY inputs FROM '/data/inputs/blockchair_bitcoin_inputs_20090114.tsv' DELIMITER E'\t' CSV HEADER;
