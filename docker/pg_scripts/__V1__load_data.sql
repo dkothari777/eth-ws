@@ -97,3 +97,19 @@ CREATE TABLE inputs(
 );
 
 COPY inputs FROM PROGRAM 'awk FNR-1 /data/inputs/blockchair_bitcoin_inputs_*.tsv | cat' DELIMITER E'\t' CSV;
+
+CREATE TABLE outputs(
+    block_id TEXT,
+    transaction_hash TEXT,
+    index TEXT,
+    time TEXT, 
+    value TEXT,
+    value_usd TEXT,
+    recipient TEXT,
+    type TEXT, 
+    script_hex TEXT,
+    is_from_coinbase TEXT,
+    is_spendable TEXT
+);
+
+COPY outputs FROM PROGRAM 'awk FNR-1 /data/outputs/blockchair_bitcoin_outputs_*.tsv | cat' DELIMITER E'\t' CSV;
