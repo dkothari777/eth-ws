@@ -26,8 +26,7 @@ CREATE TABLE transactions(
 
 CREATE INDEX idx_block_id ON transactions (block_id);
 
-COPY transactions FROM '/data/transactions/blockchair_bitcoin_transactions_20090103.tsv' DELIMITER E'\t' CSV HEADER;
-COPY transactions FROM '/data/transactions/blockchair_bitcoin_transactions_20090109.tsv' DELIMITER E'\t' CSV HEADER;
+COPY transactions FROM PROGRAM 'awk FNR-1 /data/transactions/blockchair_bitcoin_transactions_*.tsv | cat' DELIMITER E'\t' CSV;
 
 CREATE TABLE blocks(
     id   TEXT,
@@ -71,8 +70,7 @@ CREATE TABLE blocks(
 
 CREATE INDEX idx_hash ON blocks (hash);
 
-COPY blocks FROM '/data/blocks/blockchair_bitcoin_blocks_20090103.tsv' DELIMITER E'\t' CSV HEADER;
-COPY blocks FROM '/data/blocks/blockchair_bitcoin_blocks_20090109.tsv' DELIMITER E'\t' CSV HEADER;
+COPY blocks FROM PROGRAM 'awk FNR-1 /data/blocks/blockchair_bitcoin_blocks_*.tsv | cat' DELIMITER E'\t' CSV;
 
 CREATE TABLE inputs(
     block_id TEXT,
@@ -98,5 +96,4 @@ CREATE TABLE inputs(
     cdd TEXT
 );
 
-COPY inputs FROM '/data/inputs/blockchair_bitcoin_inputs_20090112.tsv' DELIMITER E'\t' CSV HEADER;
-COPY inputs FROM '/data/inputs/blockchair_bitcoin_inputs_20090114.tsv' DELIMITER E'\t' CSV HEADER;
+COPY inputs FROM PROGRAM 'awk FNR-1 /data/inputs/blockchair_bitcoin_inputs_*.tsv | cat' DELIMITER E'\t' CSV;
