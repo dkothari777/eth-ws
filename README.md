@@ -34,6 +34,32 @@ Load in the environment and path variables
 $ direnv allow
 ```
 
+## Eth-Stream
+Streams Ethereum transactions from a websocket. You can accomplish this from the command line too. 
+
+```shell
+$ npm install -g wscat
+$ wscat -c wss://main-light.eth.linkpool.io/ws
+> {"id": 1, "method": "eth_subscribe", "params": ["newHeads"], "jsonrpc":"2.0"}
+```
+> Note: Future will stream directly to the database. Links taken from https://medium.com/linkpool/release-of-public-ethereum-rpcs-f5dd57455d2e
+
+### Pre-Requisites
+Install Rust and Cargo
+
+#### Mac-Install
+```shell
+$ brew install rust
+```
+
+### Build
+```shell
+$ cd eth-stream
+$ cargo build
+$ cargo run
+```
+
+
 ## Start the database
 
 If you allowed direnv, then
